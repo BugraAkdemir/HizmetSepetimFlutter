@@ -1,16 +1,60 @@
-# hizmetsepetimapp_flutter
+# HizmetSepetim – Flutter Client (Open Source)
 
-A new Flutter project.
+🚀 **HizmetSepetim**, hizmet verenler ile kullanıcıları buluşturmayı amaçlayan bir platformdur.  
+Bu repository, HizmetSepetim’in **Flutter ile geliştirilmiş istemci (client) uygulamasını** içerir.
 
-## Getting Started
+> ⚠️ **Önemli:**  
+> Bu repo **yalnızca Flutter client uygulamasını** kapsar.  
+> Backend, veritabanı, canlı API servisleri ve marka altyapısı bu repoya dahil değildir.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 🎯 Projenin Amacı
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Bu Flutter uygulaması:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter ile **gerçek bir ürünün** nasıl geliştirildiğini göstermek
+- iOS sürümü ve uzun vadede **Android + iOS birleşik client** için temel oluşturmak
+- Açık kaynak üzerinden **Flutter mimarisi, UI/UX ve API entegrasyonu** sergilemek
+- Geliştirici (benim) Flutter bilgisini ileri seviyeye taşımak
+
+Amaç **demo yapmak değil**, gerçek dünyada kullanılan bir yapıyı açık kaynak olarak geliştirmektir.
+
+---
+
+## 🧠 Genel Mimari
+
+- **Frontend:** Flutter (Material)
+- **State yönetimi:** Basit Stateful / setState (ileride geliştirilebilir)
+- **API katmanı:** REST API (Dio)
+- **Tasarım:** HizmetSepetim marka renklerine uygun, modern ve sade UI
+- **Hata yönetimi:**  
+  - Null / bozuk image güvenli  
+  - Backend test senaryolarına dayanıklı
+
+---
+
+## 📱 Platform Desteği
+
+| Platform | Durum |
+|--------|------|
+| Android | ✅ Geliştiriliyor |
+| iOS | 🎯 Hedef platform |
+| Web | ❌ Şu an hedef değil |
+
+> ℹ️ Android için **ilk Play Store sürümü native Kotlin (Jetpack Compose)** ile çıkacaktır.  
+> Flutter bu projede **iOS ve uzun vadeli unified client** hedefiyle geliştirilmektedir.
+
+---
+
+## 🔐 Backend Hakkında
+
+- Backend **özel (private)** tutulmaktadır
+- Bu repo canlı backend kodlarını **içermez**
+- API endpoint’leri örnek / geliştirme amaçlıdır
+
+Eğer proje ileride:
+- **Başarılı olursa:** Open-core model devam eder  
+- **Sonlandırılırsa:** Backend dahil tamamı açık kaynak yapılabilir
+
+---

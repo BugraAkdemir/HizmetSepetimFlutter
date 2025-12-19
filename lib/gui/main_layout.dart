@@ -1,5 +1,6 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../gui/home_screen.dart';
+import 'home_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -13,18 +14,22 @@ class _MainLayoutState extends State<MainLayout> {
 
   final pages = const [
     HomeScreen(),
-    Placeholder(), // Categories
-    Placeholder(), // Profile
+    Placeholder(),
+    Placeholder(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: pages,
+      backgroundColor: const Color(0xFFF2F6F5),
+      body: SafeArea(
+        bottom: false,
+        child: IndexedStack(
+          index: currentIndex,
+          children: pages,
+        ),
       ),
-      bottomNavigationBar: _CustomBottomBar(
+      bottomNavigationBar: _GradientBottomBar(
         currentIndex: currentIndex,
         onChange: (i) => setState(() => currentIndex = i),
       ),
@@ -32,11 +37,11 @@ class _MainLayoutState extends State<MainLayout> {
   }
 }
 
-class _CustomBottomBar extends StatelessWidget {
+class _GradientBottomBar extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onChange;
+  final ValueChanged<int> onChange;
 
-  const _CustomBottomBar({
+  const _GradientBottomBar({
     required this.currentIndex,
     required this.onChange,
   });
@@ -45,51 +50,58 @@ class _CustomBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(24, 0, 24, 16),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.85),
-          borderRadius: BorderRadius.circular(28),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 20,
-              offset: Offset(0, 10),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+        child: Container(
+          height: 68,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFF2A9D8F),
+                Color(0xFF3FB7A5),
+                Color(0xFF52B788),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _dockItem(Icons.home, 0),
-            _dockItem(Icons.category, 1),
-            _dockItem(Icons.person, 2),
-          ],
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 20,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _item(Icons.home_rounded, 0),
+              _item(Icons.category_rounded, 1),
+              _item(Icons.person_rounded, 2),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _dockItem(IconData icon, int index) {
+  Widget _item(IconData icon, int index) {
     final selected = currentIndex == index;
 
     return GestureDetector(
       onTap: () => onChange(index),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 220),
         padding: EdgeInsets.all(selected ? 14 : 10),
         decoration: BoxDecoration(
-          color: selected
-              ? const Color(0xFF2A9D8F)
-              : Colors.transparent,
+          color: selected ? Colors.white : Colors.transparent,
           shape: BoxShape.circle,
         ),
         child: Icon(
           icon,
           size: selected ? 30 : 24,
-          color: selected ? Colors.white : Colors.grey,
+          color: selected ? const Color(0xFF2A9D8F) : Colors.white70,
         ),
       ),
     );
