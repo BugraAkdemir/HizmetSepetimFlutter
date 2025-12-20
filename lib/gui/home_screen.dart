@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../appData/api_service.dart';
+import 'product_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,22 +18,53 @@ class _HomeScreenState extends State<HomeScreen> {
   static const textSoft = Color(0xFF64748B);
 
   final ApiService api = ApiService();
+
   List<Category> categories = [];
   Map<int, List<Product>> products = {};
   bool loading = true;
+  String? errorText;
 
   @override
   void initState() {
     super.initState();
-    load();
+    _load();
   }
 
-  Future<void> load() async {
-    categories = await api.getCategories();
-    for (final c in categories) {
-      products[c.id] = await api.getProducts(c.id);
+  Future<void> _load() async {
+    if (!mounted) return;
+
+    setState(() {
+      loading = true;
+      errorText = null;
+    });
+
+    try {
+      final cats = await api.getCategories();
+
+      // Ürünleri paralel çek (daha hızlı)
+      final results = await Future.wait(
+        cats.map((c) async => MapEntry(c.id, await api.getProducts(c.id))),
+      );
+
+      final map = <int, List<Product>>{
+        for (final e in results) e.key: e.value,
+      };
+
+      if (!mounted) return;
+      setState(() {
+        categories = cats;
+        products = map;
+        loading = false;
+      });
+    } catch (e) {
+      debugPrint("HOME LOAD ERROR => $e");
+
+      if (!mounted) return;
+      setState(() {
+        loading = false;
+        errorText = "Veriler alınamadı. İnternet / API kontrol et.";
+      });
     }
-    setState(() => loading = false);
   }
 
   @override
@@ -40,6 +72,47 @@ class _HomeScreenState extends State<HomeScreen> {
     if (loading) {
       return const Center(
         child: CircularProgressIndicator(color: primary),
+      );
+    }
+
+    // HATA DURUMU (spinner yerine ekran)
+    if (errorText != null) {
+      return Material(
+        color: bg,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.wifi_off_rounded, size: 44, color: primary),
+                const SizedBox(height: 10),
+                Text(
+                  errorText!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: textSoft, fontSize: 14),
+                ),
+                const SizedBox(height: 14),
+                SizedBox(
+                  height: 46,
+                  child: ElevatedButton(
+                    onPressed: _load,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text(
+                      "Yeniden Dene",
+                      style: TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       );
     }
 
@@ -118,7 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
         children: [
           Text("🎉", style: TextStyle(fontSize: 30)),
           SizedBox(height: 6),
@@ -193,58 +265,74 @@ class _HomeScreenState extends State<HomeScreen> {
   // ================= PRODUCT CARD =================
 
   Widget _card(Product p) {
-    return Container(
-      width: 160,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: primary.withOpacity(0.12),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(22),
-            ),
-            child: SizedBox(
-              height: 110,
-              width: double.infinity,
-              child: _productImage(p.imageUrl),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ProductDetailScreen(
+              productId: p.id,
+              name: p.name,
+              price: p.price,
+              description: p.description,
+              imageUrl: p.imageUrl,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  p.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: textDark,
+        );
+      },
+      child: Container(
+        width: 160,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: primary.withOpacity(0.12),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(22),
+              ),
+              child: SizedBox(
+                height: 110,
+                width: double.infinity,
+                child: _productImage(p.imageUrl),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    p.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: textDark,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "₺${p.price}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: primary,
+                  const SizedBox(height: 8),
+                  Text(
+                    "₺${p.price}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: primary,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -252,9 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ================= IMAGE SAFE =================
 
   Widget _productImage(String url) {
-    if (url.isEmpty) {
-      return _placeholder();
-    }
+    if (url.isEmpty) return _placeholder();
 
     return Image.network(
       url,
