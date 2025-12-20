@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../appData/api_service.dart';
 import '../utils/token_store.dart';
 import '../utils/auth_state.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final api = ApiService();
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
+
   bool loading = false;
 
   Future<void> _login() async {
@@ -30,6 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
       await TokenStore.save(res.token);
       authState.value = true;
       Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("E-posta veya şifre hatalı")),
+      );
     }
 
     setState(() => loading = false);
@@ -54,21 +60,42 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // 🔥 Card
+          // 🔙 Custom back button (iOS style)
+          Positioned(
+            top: 48,
+            left: 16,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.25),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
+
+          // 🔥 Login card
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.95),
+                  color: Colors.white.withOpacity(0.96),
                   borderRadius: BorderRadius.circular(28),
                   boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       blurRadius: 25,
                       offset: Offset(0, 10),
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
@@ -116,17 +143,36 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         child: loading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
+                            ? const CircularProgressIndicator(color: Colors.white)
                             : const Text(
                                 "Giriş Yap",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Colors.white,
                                 ),
                               ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SignUpScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Hesabın yok mu? Kayıt Ol",
+                          style: TextStyle(
+                            color: Color(0xFF2A9D8F),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ],

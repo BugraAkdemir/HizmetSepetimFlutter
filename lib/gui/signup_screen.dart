@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../appData/api_service.dart';
 import '../utils/token_store.dart';
 import '../utils/auth_state.dart';
+import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -51,7 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔥 Gradient arka plan
+          // 🔥 Gradient background
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -65,7 +66,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
 
-          // 🔥 Signup kart
+          // 🔙 Custom back button
+          Positioned(
+            top: 48,
+            left: 16,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.25),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
+
+          // 🔥 Signup card
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
@@ -79,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       color: Colors.black26,
                       blurRadius: 25,
                       offset: Offset(0, 10),
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
@@ -100,33 +122,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     const SizedBox(height: 28),
 
-                    _input(
-                      controller: nameCtrl,
-                      label: "Ad Soyad",
-                      icon: Icons.person_outline,
-                    ),
-                    const SizedBox(height: 14),
-
-                    _input(
-                      controller: emailCtrl,
-                      label: "E-posta",
-                      icon: Icons.mail_outline,
-                    ),
-                    const SizedBox(height: 14),
-
-                    _input(
-                      controller: phoneCtrl,
-                      label: "Telefon",
-                      icon: Icons.phone_outlined,
-                    ),
-                    const SizedBox(height: 14),
-
-                    _input(
-                      controller: passCtrl,
-                      label: "Şifre",
-                      icon: Icons.lock_outline,
-                      obscure: true,
-                    ),
+                    _input(nameCtrl, "Ad Soyad", Icons.person_outline),
+                    _input(emailCtrl, "E-posta", Icons.mail_outline),
+                    _input(phoneCtrl, "Telefon", Icons.phone_outlined),
+                    _input(passCtrl, "Şifre", Icons.lock_outline, obscure: true),
 
                     const SizedBox(height: 28),
 
@@ -142,21 +141,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         child: loading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
+                            ? const CircularProgressIndicator(color: Colors.white)
                             : const Text(
                                 "Hesap Oluştur",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Color(0xFFFFFFFF)
                                 ),
                               ),
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 18),
+
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Hesabın var mı? Giriş Yap",
+                          style: TextStyle(
+                            color: Color(0xFF2A9D8F),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
 
                     const Center(
                       child: Text(
@@ -178,23 +196,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _input({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
+  Widget _input(
+    TextEditingController c,
+    String label,
+    IconData icon, {
     bool obscure = false,
   }) {
-    return TextField(
-      controller: controller,
-      obscureText: obscure,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: TextField(
+        controller: c,
+        obscureText: obscure,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          filled: true,
+          fillColor: Colors.grey.shade100,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );
