@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/token_store.dart';
+import '../utils/auth_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -18,6 +19,7 @@ class ProfileScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               await TokenStore.clear();
+              authState.value = false;
             },
             child: const Text("Çıkış Yap"),
           )
