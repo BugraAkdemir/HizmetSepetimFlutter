@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 import 'gui/main_layout.dart';
+import 'utils/token_store.dart';
+import 'utils/user_store.dart';
+import 'utils/auth_state.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // 👈 ÇOK KRİTİK
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔐 TOKEN + USER RESTORE
+  final token = await TokenStore.read();
+  final user = await UserStore.read();
+
+  if (token != null && token.isNotEmpty && user != null) {
+    authState.value = true;
+    userSession.value = user;
+  } else {
+    authState.value = false;
+    userSession.value = null;
+  }
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // Brand colors (global)
-  static const brandPrimary = Color(0xFF2A9D8F);
-  static const brandBackground = Color(0xFFF3F7F6);
-
   @override
   Widget build(BuildContext context) {
-    final theme = ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: brandPrimary,
-        brightness: Brightness.light,
-      ),
-      scaffoldBackgroundColor: brandBackground,
-      fontFamily: null,
-    );
-
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'HizmetSepetim',
-      theme: theme,
-      home: const MainLayout(),
+      home: MainLayout(),
     );
   }
 }
-

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../appData/api_service.dart';
 import '../utils/token_store.dart';
 import '../utils/auth_state.dart';
+import '../utils/user_store.dart';
 import 'signup_screen.dart';
+import 'main_layout.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,16 +31,35 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (res != null && res.token.isNotEmpty) {
+      // 🔐 TOKEN KAYDET
       await TokenStore.save(res.token);
+
+      // 👤 USER OLUŞTUR
+      final user = UserSession(
+        name: res.user["email"]?.toString().split("@").first ?? "Kullanıcı",
+        email: res.user["email"] ?? "",
+        role: res.user["role"] ?? "ALICI",
+      );
+
+      // 🔥 STATE + DISK
+      userSession.value = user;
       authState.value = true;
-      Navigator.pop(context);
+      await UserStore.save(user);
+
+      // 🔥 ROOT'A DÖN (DÖNME BUG'I BİTER)
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const MainLayout()),
+        (route) => false,
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("E-posta veya şifre hatalı")),
       );
     }
 
-    setState(() => loading = false);
+    if (mounted) {
+      setState(() => loading = false);
+    }
   }
 
   @override
@@ -50,17 +71,14 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFF2A9D8F),
-                  Color(0xFF52B788),
-                ],
+                colors: [Color(0xFF2A9D8F), Color(0xFF52B788)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
           ),
 
-          // 🔙 Custom back button (iOS style)
+          // 🔙 iOS tarzı geri butonu
           Positioned(
             top: 48,
             left: 16,
@@ -69,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.25),
+                  color: Colors.white.withValues(alpha: 0.25),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -88,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.96),
+                  color: Colors.white.withValues(alpha: 0.96),
                   borderRadius: BorderRadius.circular(28),
                   boxShadow: const [
                     BoxShadow(
