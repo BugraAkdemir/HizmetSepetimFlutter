@@ -27,7 +27,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (user != null) {
       nameCtrl.text = user.name;
       emailCtrl.text = user.email;
-      phoneCtrl.text = user.phone ?? "";
+      phoneCtrl.text = user.phone;
     }
   }
 
@@ -54,7 +54,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
         userSession.value = updated;
         await UserStore.save(updated);
-
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
         _error("Profil güncellenemedi");
@@ -67,9 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _error(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
@@ -97,6 +95,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
+                  // ignore: deprecated_member_use
                   color: Colors.white.withOpacity(0.25),
                   shape: BoxShape.circle,
                 ),
@@ -116,6 +115,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
+                  // ignore: deprecated_member_use
                   color: Colors.white.withOpacity(0.96),
                   borderRadius: BorderRadius.circular(28),
                   boxShadow: const [
@@ -187,11 +187,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget _input(
-    String label,
-    TextEditingController ctrl,
-    IconData icon,
-  ) {
+  Widget _input(String label, TextEditingController ctrl, IconData icon) {
     return TextField(
       controller: ctrl,
       decoration: InputDecoration(

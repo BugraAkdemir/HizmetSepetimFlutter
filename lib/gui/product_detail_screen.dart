@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../appData/api_service.dart';
 import '/theme/colors.dart';
+import 'checkout_screen.dart';
+import 'login_screen.dart';
+import '../utils/token_store.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int productId;
@@ -26,6 +29,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final ApiService api = ApiService();
   late Future<ProductDetailResponse?> future;
 
+  double _priceAsDouble(String? v) {
+    return double.tryParse((v ?? "0").replaceAll(",", ".")) ?? 0.0;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -49,11 +56,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Container(
       color: primary.withOpacity(0.10),
       child: const Center(
-        child: Icon(
-          Icons.image_not_supported,
-          color: primary,
-          size: 42,
-        ),
+        child: Icon(Icons.image_not_supported, color: primary, size: 42),
       ),
     );
   }
@@ -88,10 +91,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           }
 
           final product = detail.product;
-          final images = detail.images.map(_img).where((e) => e.isNotEmpty).toList();
+          final images = detail.images
+              .map(_img)
+              .where((e) => e.isNotEmpty)
+              .toList();
           final fallbackImage = _img(widget.imageUrl);
-          final heroImage =
-              images.isNotEmpty ? images.first : fallbackImage;
+          final heroImage = images.isNotEmpty ? images.first : fallbackImage;
 
           return Stack(
             children: [
@@ -184,23 +189,51 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
 
               // ================= BUY BAR =================
+              // ================= BUY BAR =================
               Positioned(
                 left: 16,
                 right: 16,
                 bottom: 20,
-                child: Container(
-                  height: 56,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: primary,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Satın Al (Yakında)",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                child: GestureDetector(
+                  onTap: () async {
+                    final token = await TokenStore.read();
+
+                    if (!mounted) return;
+
+                    if (token == null || token.isEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                      );
+                      return;
+                    }
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CheckoutScreen(
+                          name: _safe(product.name),
+                          price: double.tryParse(product.price) ?? 0.0,
+                          categoryId: product.categoryId,
+                        ),
+                      ),
+                    );
+                  },
+
+                  child: Container(
+                    height: 56,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                      color: primary,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Satın Al",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

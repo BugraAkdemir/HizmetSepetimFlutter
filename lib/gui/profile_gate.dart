@@ -37,7 +37,7 @@ class ProfileGate extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => const LoginScreen(),
