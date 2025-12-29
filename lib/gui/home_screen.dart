@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Brand
   static const bg = Color(0xFFF2F6F5);
   static const primary = Color(0xFF2A9D8F);
   static const secondary = Color(0xFF52B788);
@@ -41,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final cats = await api.getCategories();
 
-      // Ürünleri paralel çek (daha hızlı)
       final results = await Future.wait(
         cats.map((c) async => MapEntry(c.id, await api.getProducts(c.id))),
       );
@@ -75,7 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    // HATA DURUMU (spinner yerine ekran)
     if (errorText != null) {
       return Material(
         color: bg,
@@ -136,8 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // ================= HEADER =================
-
   Widget _title() {
     return const Text(
       "HizmetSepetim",
@@ -165,8 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // ================= BANNER =================
 
   Widget _campaign() {
     return Container(
@@ -211,8 +204,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // ================= CATEGORY =================
 
   Widget _category(Category c) {
     final list = products[c.id] ?? [];
@@ -261,8 +252,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
-  // ================= PRODUCT CARD =================
 
   Widget _card(Product p) {
     return GestureDetector(
@@ -336,8 +325,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // ================= IMAGE SAFE =================
 
   Widget _productImage(String url) {
     if (url.isEmpty) return _placeholder();

@@ -1,13 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import '../utils/token_store.dart';
-import '../utils/user_store.dart';
 
 const String baseUrl = "http://92.249.61.58:8080/";
-
-/// =====================================================
-/// MODELLER
-/// =====================================================
 
 class Category {
   final int id;
@@ -219,9 +215,50 @@ class Address {
   }
 }
 
-/// =====================================================
-/// API SERVICE
-/// =====================================================
+class Booking {
+  final int id;
+  final String productName;
+  final double price;
+  final double totalPrice;
+  final String appointmentDatetime;
+  final String? addons;
+  final String status;
+  final String? addressLine;
+  final String? district;
+  final String? city;
+  final String createdAt;
+
+  Booking({
+    required this.id,
+    required this.productName,
+    required this.price,
+    required this.totalPrice,
+    required this.appointmentDatetime,
+    this.addons,
+    required this.status,
+    this.addressLine,
+    this.district,
+    this.city,
+    required this.createdAt,
+  });
+
+  factory Booking.fromJson(Map<String, dynamic> json) {
+    return Booking(
+      id: int.parse(json["id"]?.toString() ?? "0"),
+      productName: json["product_name"]?.toString() ?? "",
+      price: double.tryParse(json["price"]?.toString() ?? "0") ?? 0.0,
+      totalPrice:
+          double.tryParse(json["total_price"]?.toString() ?? "0") ?? 0.0,
+      appointmentDatetime: json["appointment_datetime"]?.toString() ?? "",
+      addons: json["addons"]?.toString(),
+      status: json["status"]?.toString() ?? "PENDING",
+      addressLine: json["address_line"]?.toString(),
+      district: json["district"]?.toString(),
+      city: json["city"]?.toString(),
+      createdAt: json["created_at"]?.toString() ?? "",
+    );
+  }
+}
 
 class ApiService {
   final Dio _dio;
@@ -238,7 +275,6 @@ class ApiService {
           },
         ),
       ) {
-    // 🔐 JWT INTERCEPTOR
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -252,7 +288,6 @@ class ApiService {
     );
   }
 
-  /// 🔑 STRING / MAP SAFE DECODER
   Map<String, dynamic> _asMap(dynamic data) {
     if (data == null) return <String, dynamic>{};
     if (data is String) {
@@ -280,14 +315,11 @@ class ApiService {
         },
       );
 
-      // 🔥 Exception yoksa = başarılı
       return true;
     } catch (e) {
       return false;
     }
   }
-
-  /// ---------------- AUTH ----------------
 
   Future<List<Address>> getAddresses() async {
     try {
@@ -414,8 +446,6 @@ class ApiService {
     return data["success"] == true;
   }
 
-  /// ---------------- DATA ----------------
-
   Future<List<Category>> getCategories() async {
     final res = await _dio.get("/get_categories");
     final data = _asMap(res.data);
@@ -469,5 +499,21 @@ class ApiService {
       return SearchResponse.fromJson(data);
     }
     return null;
+  }
+
+  Future<List<Booking>> getBookings() async {
+    try {
+      final res = await _dio.get("/get_orders");
+      final data = _asMap(res.data);
+
+      if (data["success"] == true) {
+        final list = (data["orders"] as List? ?? []);
+        return list.map((e) => Booking.fromJson(e)).toList();
+      }
+      return [];
+    } catch (e) {
+      debugPrint("❌ getBookings error: $e");
+      return [];
+    }
   }
 }

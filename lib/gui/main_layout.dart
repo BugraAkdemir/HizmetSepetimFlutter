@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'profile_gate.dart';
+import 'booking_screen.dart';
+import 'profile_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -17,15 +19,17 @@ class _MainLayoutState extends State<MainLayout> {
       case 0:
         return const HomeScreen();
       case 1:
-        return const Placeholder();
+        return const BookingScreen();
       case 2:
-        return const ProfileGate(); // 🔥 ARTIK SORUNSUZ
+        return const ProfileGate();
+      case 3:
+        return const ProfileGate();
       default:
         return const HomeScreen();
     }
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F6F5),
@@ -61,11 +65,7 @@ class _GradientBottomBar extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
             gradient: const LinearGradient(
-              colors: [
-                Color(0xFF2A9D8F),
-                Color(0xFF3FB7A5),
-                Color(0xFF52B788),
-              ],
+              colors: [Color(0xFF2A9D8F), Color(0xFF3FB7A5), Color(0xFF52B788)],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
@@ -81,8 +81,9 @@ class _GradientBottomBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _item(Icons.home_rounded, 0),
-              _item(Icons.category_rounded, 1),
-              _item(Icons.person_rounded, 2),
+              _item(Icons.book, 1),
+              _item(Icons.wallet, 2),
+              _item(Icons.person_rounded, 3),
             ],
           ),
         ),
@@ -105,9 +106,7 @@ class _GradientBottomBar extends StatelessWidget {
         child: Icon(
           icon,
           size: selected ? 30 : 24,
-          color: selected
-              ? const Color(0xFF2A9D8F)
-              : Colors.white70,
+          color: selected ? const Color(0xFF2A9D8F) : Colors.white70,
         ),
       ),
     );

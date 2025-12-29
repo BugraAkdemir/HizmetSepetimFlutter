@@ -31,10 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (res != null && res.token.isNotEmpty) {
-      // 🔐 TOKEN KAYDET
       await TokenStore.save(res.token);
 
-      // 👤 USER OLUŞTUR
       final user = UserSession(
         name: res.user["email"]?.toString().split("@").first ?? "Kullanıcı",
         email: res.user["email"] ?? "",
@@ -42,12 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
         phone: res.user["phone"] ?? "",
       );
 
-      // 🔥 STATE + DISK
       userSession.value = user;
       authState.value = true;
       await UserStore.save(user);
 
-      // 🔥 ROOT'A DÖN (DÖNME BUG'I BİTER)
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const MainLayout()),
         (route) => false,
@@ -68,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔥 Gradient background
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -79,7 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // 🔙 iOS tarzı geri butonu
           Positioned(
             top: 48,
             left: 16,
@@ -100,7 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // 🔥 Login card
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
@@ -162,7 +155,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         child: loading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : const Text(
                                 "Giriş Yap",
                                 style: TextStyle(

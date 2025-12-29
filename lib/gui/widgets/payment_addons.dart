@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../theme/colors.dart';
 
 class PaymentAddons extends StatelessWidget {
   final List<Map<String, dynamic>> addons;

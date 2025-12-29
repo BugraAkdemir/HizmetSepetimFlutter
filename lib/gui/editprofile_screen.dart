@@ -44,7 +44,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (!mounted) return;
 
       if (res == true) {
-        // 🔁 LOCAL USER UPDATE
         final updated = UserSession(
           name: nameCtrl.text.trim(),
           email: emailCtrl.text.trim(),
@@ -75,7 +74,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🌈 Background
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -86,7 +84,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ),
 
-          // 🔙 Back
           Positioned(
             top: 48,
             left: 16,
@@ -108,7 +105,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ),
 
-          // 🧾 Card
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),

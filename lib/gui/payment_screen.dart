@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../appData/api_service.dart';
@@ -33,7 +32,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   DateTime? selectedDateTime;
 
-  // kart (opsiyonel)
   final cardHolder = TextEditingController();
   final cardNumber = TextEditingController();
   final expiry = TextEditingController();
@@ -66,7 +64,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String get addonsPayload {
     if (selectedAddons.isEmpty) return "";
     final list = selectedAddons.toList()..sort();
-    return list.join(','); // 2  veya  1,2
+    return list.join(',');
   }
 
   String get appointmentPayload {
@@ -336,8 +334,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     ),
   );
 }
-
-/// FORMATTERS
 
 class CardNumberFormatter extends TextInputFormatter {
   @override

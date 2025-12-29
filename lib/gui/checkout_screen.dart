@@ -64,7 +64,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  // ================= ORDER SUMMARY =================
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
@@ -110,7 +109,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                   const SizedBox(height: 20),
 
-                  // ================= ADDRESS LIST =================
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -215,7 +213,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                   const SizedBox(height: 10),
 
-                  // ================= CONTINUE =================
                   SizedBox(
                     width: double.infinity,
                     height: 52,
@@ -255,7 +252,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
             ),
 
-      // ================= ADD ADDRESS =================
       floatingActionButton: showAddDialog
           ? AddAddressDialog(
               onClose: () => setState(() => showAddDialog = false),
@@ -304,7 +300,6 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ===== HEADER =====
             Row(
               children: const [
                 Icon(Icons.location_on, color: primary),
@@ -318,7 +313,6 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
 
             const SizedBox(height: 16),
 
-            // ===== FORM =====
             _field(fullName, "Ad Soyad", Icons.person),
             _field(phone, "Telefon", Icons.phone),
             _field(line, "Açık Adres", Icons.home),
@@ -327,7 +321,6 @@ class _AddAddressDialogState extends State<AddAddressDialog> {
 
             const SizedBox(height: 20),
 
-            // ===== ACTIONS =====
             Row(
               children: [
                 Expanded(

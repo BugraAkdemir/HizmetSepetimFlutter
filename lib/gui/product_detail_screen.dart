@@ -103,7 +103,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ListView(
                 padding: const EdgeInsets.only(bottom: 110),
                 children: [
-                  // ================= HERO =================
                   Container(
                     height: 260,
                     margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -132,7 +131,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                   const SizedBox(height: 20),
 
-                  // ================= INFO CARD =================
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Container(
@@ -188,8 +186,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ],
               ),
 
-              // ================= BUY BAR =================
-              // ================= BUY BAR =================
               Positioned(
                 left: 16,
                 right: 16,

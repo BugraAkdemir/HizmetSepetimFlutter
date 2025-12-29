@@ -52,7 +52,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔥 Gradient background
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -66,7 +65,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
 
-          // 🔙 Custom back button
           Positioned(
             top: 48,
             left: 16,
@@ -87,7 +85,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
 
-          // 🔥 Signup card
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),

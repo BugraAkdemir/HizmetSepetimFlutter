@@ -7,7 +7,6 @@ import 'utils/auth_state.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 🔐 TOKEN + USER RESTORE
   final token = await TokenStore.read();
   final user = await UserStore.read();
 
