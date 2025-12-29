@@ -1,164 +1,164 @@
 # HizmetSepetim – Flutter Client (Open Source)
 
-🚀 **HizmetSepetim**, hizmet verenler ile kullanıcıları buluşturmayı amaçlayan bir platformdur.
-Bu repository, HizmetSepetim'in **Flutter ile geliştirilmiş istemci (client) uygulamasını** içerir.
+🚀 **HizmetSepetim** is a platform that connects service providers with users.
+This repository contains the **Flutter client application** of HizmetSepetim.
 
-> ⚠️ **Önemli:**
-> Bu repo **yalnızca Flutter client uygulamasını** kapsar.
-> Backend, veritabanı, canlı API servisleri ve marka altyapısı bu repoya dahil değildir.
-
----
-
-## 🎯 Projenin Amacı
-
-Bu Flutter uygulaması:
-
-- Flutter ile **gerçek bir ürünün** nasıl geliştirildiğini göstermek
-- iOS sürümü ve uzun vadede **Android + iOS birleşik client** için temel oluşturmak
-- Açık kaynak üzerinden **Flutter mimarisi, UI/UX ve API entegrasyonu** sergilemek
-- Geliştirici Flutter bilgisini ileri seviyeye taşımak
-
-Amaç **demo yapmak değil**, gerçek dünyada kullanılan bir yapıyı açık kaynak olarak geliştirmektir.
+> ⚠️ **Important:**
+> This repo contains **only the Flutter client application**.
+> Backend, database, live API services, and brand infrastructure are not included in this repository.
 
 ---
 
-## 📱 Özellikler
+## 🎯 Project Purpose
 
-### Kullanıcı Yönetimi
-- ✅ Kullanıcı kaydı ve girişi (JWT token tabanlı)
-- ✅ Profil görüntüleme ve düzenleme
-- ✅ Oturum yönetimi (token ve kullanıcı bilgileri kalıcı saklama)
-- ✅ Auth state yönetimi (ValueNotifier ile global durum)
+This Flutter application aims to:
 
-### Ürün ve Kategori Sistemi
-- ✅ Kategoriler listesi
-- ✅ Kategoriye göre ürün listeleme
-- ✅ Ürün detay sayfası (açıklama, fiyat, satıcı bilgileri, yorumlar)
-- ✅ Ürün arama özelliği
+- Demonstrate how a **real-world product** is developed with Flutter
+- Build a foundation for iOS version and **unified Android + iOS client** in the long term
+- Showcase **Flutter architecture, UI/UX, and API integration** through open source
+- Advance developer Flutter knowledge to an advanced level
 
-### Sipariş ve Randevu Yönetimi
-- ✅ Ürün seçimi ve ek hizmet ekleme
-- ✅ Adres yönetimi (ekleme, listeleme, seçim)
-- ✅ Randevu tarih/saat seçimi
-- ✅ Sipariş oluşturma
-- ✅ Randevu listesi görüntüleme (Booking Screen)
-- ✅ Randevu durumu takibi (Bekliyor, Onaylandı, Tamamlandı, İptal)
+The goal is **not to create a demo**, but to develop a real-world structure as open source.
 
-### Ödeme Sistemi
-- ✅ **Cüzdan (Wallet) entegrasyonu**
-  - Cüzdan bakiyesi görüntüleme
-  - Cüzdan ile ödeme yapma
-  - Kısmi ödeme desteği (cüzdan + kart karışık ödeme)
-  - Otomatik bakiye kontrolü
-- ✅ **Kart bilgileri formu** (şu an opsiyonel, görsel amaçlı)
-- ✅ Ödeme yöntemi seçimi (wallet, card, mixed)
-- ✅ Ödeme dağılımı gösterimi (cüzdan + kart breakdown)
+---
 
-### Cüzdan (Wallet) Özellikleri
-- ✅ Bakiye görüntüleme
-- ✅ İşlem geçmişi (son 10 işlem)
-- ✅ Promosyon kodu kullanımı (promo code redemption)
-- ✅ İşlem tipleri: `promo_code`, `order_payment`
-- ✅ Pull-to-refresh desteği
+## 📱 Features
 
-### UI/UX Özellikleri
+### User Management
+- ✅ User registration and login (JWT token-based)
+- ✅ Profile viewing and editing
+- ✅ Session management (persistent storage of tokens and user information)
+- ✅ Auth state management (global state with ValueNotifier)
+
+### Product and Category System
+- ✅ Categories list
+- ✅ Product listing by category
+- ✅ Product detail page (description, price, seller information, reviews)
+- ✅ Product search feature
+
+### Order and Appointment Management
+- ✅ Product selection and additional services
+- ✅ Address management (add, list, select)
+- ✅ Appointment date/time selection
+- ✅ Order creation
+- ✅ Appointment list viewing (Booking Screen)
+- ✅ Appointment status tracking (Pending, Confirmed, Completed, Cancelled)
+
+### Payment System
+- ✅ **Wallet integration**
+  - Wallet balance display
+  - Payment with wallet
+  - Partial payment support (wallet + card mixed payment)
+  - Automatic balance check
+- ✅ **Card information form** (currently optional, visual purposes)
+- ✅ Payment method selection (wallet, card, mixed)
+- ✅ Payment breakdown display (wallet + card breakdown)
+
+### Wallet Features
+- ✅ Balance display
+- ✅ Transaction history (last 10 transactions)
+- ✅ Promo code redemption
+- ✅ Transaction types: `promo_code`, `order_payment`
+- ✅ Pull-to-refresh support
+
+### UI/UX Features
 - ✅ Modern gradient bottom navigation bar
-- ✅ Card-based tasarım (gölgeli kartlar)
-- ✅ Loading ve error state yönetimi
-- ✅ Empty state gösterimleri
+- ✅ Card-based design (shadowed cards)
+- ✅ Loading and error state management
+- ✅ Empty state displays
 - ✅ Responsive layout
 
 ---
 
-## 🧠 Genel Mimari
+## 🧠 General Architecture
 
-### Teknoloji Stack
+### Technology Stack
 
 - **Framework:** Flutter SDK ^3.10.4
 - **HTTP Client:** Dio ^5.9.0
-- **Güvenli Depolama:** flutter_secure_storage ^9.0.0 (JWT token)
+- **Secure Storage:** flutter_secure_storage ^9.0.0 (JWT token)
 - **Local Storage:** shared_preferences ^2.2.2 (User session)
 - **State Management:**
   - `setState` (local state)
   - `ValueNotifier` (global auth state)
-  - Provider ^6.0.5 (bağımlılık olarak mevcut, şu an kullanılmıyor)
+  - Provider ^6.0.5 (available as dependency, currently not used)
 
-### Proje Yapısı
+### Project Structure
 
 ```
 lib/
-├── main.dart                 # Uygulama giriş noktası
+├── main.dart                 # Application entry point
 ├── appData/
-│   └── api_service.dart      # API servisleri ve data modelleri
+│   └── api_service.dart      # API services and data models
 ├── gui/
-│   ├── main_layout.dart      # Ana layout (bottom navigation)
-│   ├── home_screen.dart      # Ana sayfa (kategoriler & ürünler)
+│   ├── main_layout.dart      # Main layout (bottom navigation)
+│   ├── home_screen.dart      # Home page (categories & products)
 │   ├── product_detail_screen.dart
-│   ├── checkout_screen.dart  # Adres seçimi
-│   ├── payment_screen.dart   # Ödeme ekranı
-│   ├── booking_screen.dart   # Randevular listesi
-│   ├── wallet_screen.dart    # Cüzdan ekranı
-│   ├── profile_screen.dart   # Profil görüntüleme
+│   ├── checkout_screen.dart  # Address selection
+│   ├── payment_screen.dart   # Payment screen
+│   ├── booking_screen.dart   # Appointments list
+│   ├── wallet_screen.dart    # Wallet screen
+│   ├── profile_screen.dart   # Profile viewing
 │   ├── editprofile_screen.dart
 │   ├── login_screen.dart
 │   ├── signup_screen.dart
 │   ├── profile_gate.dart     # Auth guard
-│   └── widgets/              # Özel widget'lar
+│   └── widgets/              # Custom widgets
 │       ├── payment_wallet.dart
 │       ├── payment_addons.dart
 │       └── payment_datetime.dart
 ├── utils/
 │   ├── auth_state.dart       # Global auth state
-│   ├── token_store.dart      # JWT token yönetimi
-│   └── user_store.dart       # Kullanıcı bilgileri yönetimi
+│   ├── token_store.dart      # JWT token management
+│   └── user_store.dart       # User information management
 └── theme/
-    └── colors.dart           # Tema renkleri
+    └── colors.dart           # Theme colors
 ```
 
-### API Entegrasyonu
+### API Integration
 
 **Base URL:** `http://92.249.61.58:8080/`
 
 **Endpoints:**
-- `GET /get_categories` - Kategori listesi
-- `GET /get_products?category_id={id}` - Ürün listesi
-- `GET /get_product_detail?id={id}` - Ürün detayı
-- `POST /register` - Kullanıcı kaydı
-- `POST /login` - Giriş
-- `GET /get_addresses` - Adres listesi
-- `POST /add_address` - Adres ekleme
-- `GET /get_addons` - Ek hizmetler listesi
-- `POST /create_order_with_payment` - Sipariş oluşturma (cüzdan + kart desteği)
-- `GET /get_orders` - Randevu/sipariş listesi
-- `GET /wallet/balance` - Cüzdan bakiyesi
-- `GET /wallet/transactions` - Cüzdan işlem geçmişi
-- `POST /redeem_promo` - Promosyon kodu kullanımı
-- `POST /update_profile` - Profil güncelleme
+- `GET /get_categories` - Categories list
+- `GET /get_products?category_id={id}` - Products list
+- `GET /get_product_detail?id={id}` - Product detail
+- `POST /register` - User registration
+- `POST /login` - Login
+- `GET /get_addresses` - Addresses list
+- `POST /add_address` - Add address
+- `GET /get_addons` - Additional services list
+- `POST /create_order_with_payment` - Create order (wallet + card support)
+- `GET /get_orders` - Appointments/orders list
+- `GET /wallet/balance` - Wallet balance
+- `GET /wallet/transactions` - Wallet transaction history
+- `POST /redeem_promo` - Promo code redemption
+- `POST /update_profile` - Profile update
 
 **Authentication:**
-- JWT Bearer token tabanlı
-- Token `flutter_secure_storage` ile güvenli saklanır
-- Her istekte `Authorization: Bearer {token}` header'ı otomatik eklenir
+- JWT Bearer token-based
+- Token is securely stored with `flutter_secure_storage`
+- `Authorization: Bearer {token}` header is automatically added to every request
 
 ### State Management
 
-- **Local State:** `StatefulWidget` ve `setState` kullanımı
+- **Local State:** `StatefulWidget` and `setState` usage
 - **Global State:**
-  - `ValueNotifier<bool> authState` - Giriş durumu
-  - `ValueNotifier<UserSession?> userSession` - Kullanıcı bilgileri
+  - `ValueNotifier<bool> authState` - Login status
+  - `ValueNotifier<UserSession?> userSession` - User information
 - **Persistence:**
   - JWT token → `flutter_secure_storage`
   - User session → `shared_preferences`
 
-### Tasarım Sistemi
+### Design System
 
-**Renk Paleti:**
+**Color Palette:**
 - Primary: `#2A9D8F` (Teal)
 - Background: `#F2F6F5` (Light gray)
 - Text Dark: `#0F172A`
 - Text Soft: `#64748B`
 
-**UI Özellikleri:**
+**UI Features:**
 - Material Design
 - Gradient bottom navigation bar
 - Card-based layout (border-radius: 20px)
@@ -167,49 +167,49 @@ lib/
 
 ---
 
-## 📱 Platform Desteği
+## 📱 Platform Support
 
-| Platform | Durum |
-|----------|-------|
-| Android | ✅ Geliştiriliyor |
-| iOS | 🎯 Hedef platform |
-| Web | ❌ Şu an hedef değil |
-| Windows | ⚠️ Flutter default desteği (test edilmemiş) |
-| Linux | ⚠️ Flutter default desteği (test edilmemiş) |
-| macOS | ⚠️ Flutter default desteği (test edilmemiş) |
+| Platform | Status |
+|----------|--------|
+| Android | ✅ In Development |
+| iOS | 🎯 Target Platform |
+| Web | ❌ Not currently targeted |
+| Windows | ⚠️ Flutter default support (untested) |
+| Linux | ⚠️ Flutter default support (untested) |
+| macOS | ⚠️ Flutter default support (untested) |
 
-> ℹ️ Android için **ilk Play Store sürümü native Kotlin (Jetpack Compose)** ile çıkacaktır.
-> Flutter bu projede **iOS ve uzun vadeli unified client** hedefiyle geliştirilmektedir.
+> ℹ️ The **first Play Store release for Android** will be with native Kotlin (Jetpack Compose).
+> Flutter is being developed in this project for **iOS and long-term unified client** goals.
 
 ---
 
-## 🚀 Kurulum ve Çalıştırma
+## 🚀 Installation and Running
 
-### Gereksinimler
+### Requirements
 
-- Flutter SDK ^3.10.4 veya üzeri
-- Dart SDK (Flutter ile birlikte gelir)
-- Android Studio / Xcode (platform-specific development için)
+- Flutter SDK ^3.10.4 or higher
+- Dart SDK (comes with Flutter)
+- Android Studio / Xcode (for platform-specific development)
 - Git
 
-### Adımlar
+### Steps
 
-1. **Repository'yi klonlayın:**
+1. **Clone the repository:**
 ```bash
 git clone <repository-url>
 cd hizmetsepetimapp_flutter
 ```
 
-2. **Bağımlılıkları yükleyin:**
+2. **Install dependencies:**
 ```bash
 flutter pub get
 ```
 
-3. **API Base URL'i kontrol edin:**
-   - `lib/appData/api_service.dart` dosyasındaki `baseUrl` değişkenini kontrol edin
-   - Gerekirse kendi backend URL'inizi girin
+3. **Check API Base URL:**
+   - Check the `baseUrl` variable in `lib/appData/api_service.dart` file
+   - Enter your own backend URL if needed
 
-4. **Uygulamayı çalıştırın:**
+4. **Run the application:**
 ```bash
 # Android
 flutter run
@@ -217,27 +217,27 @@ flutter run
 # iOS
 flutter run -d ios
 
-# Belirli bir cihaz için
+# For a specific device
 flutter devices
 flutter run -d <device-id>
 ```
 
-### Yapılandırma
+### Configuration
 
-Uygulama şu an için sabit kodlanmış backend URL'i kullanmaktadır.
-Kendi backend'inizi kullanmak için `lib/appData/api_service.dart` dosyasındaki `baseUrl` değişkenini güncelleyin.
+The application currently uses a hardcoded backend URL.
+To use your own backend, update the `baseUrl` variable in `lib/appData/api_service.dart` file.
 
 ---
 
-## 📦 Bağımlılıklar
+## 📦 Dependencies
 
 ### Production Dependencies
 
 ```yaml
 dio: ^5.9.0                    # HTTP client
-flutter_secure_storage: ^9.0.0 # Güvenli token saklama
+flutter_secure_storage: ^9.0.0 # Secure token storage
 shared_preferences: ^2.2.2     # Local storage
-provider: ^6.0.5               # State management (şu an kullanılmıyor)
+provider: ^6.0.5               # State management (currently not used)
 cupertino_icons: ^1.0.8        # iOS-style icons
 ```
 
@@ -251,136 +251,136 @@ flutter_launcher_icons: ^0.14.4 # App icon generation
 
 ---
 
-## 🎨 Ekranlar ve Özellikler
+## 🎨 Screens and Features
 
 ### 1. Home Screen
-- Kategori listesi
-- Kategoriye göre ürün listeleme
-- Ürün kartları (resim, isim, fiyat)
-- Ürün detay sayfasına navigasyon
+- Categories list
+- Product listing by category
+- Product cards (image, name, price)
+- Navigation to product detail page
 
 ### 2. Product Detail Screen
-- Ürün bilgileri (isim, açıklama, fiyat)
-- Satıcı bilgileri (isim, telefon, rating)
-- Ürün yorumları
-- "Sipariş Ver" butonu
+- Product information (name, description, price)
+- Seller information (name, phone, rating)
+- Product reviews
+- "Place Order" button
 
 ### 3. Checkout Screen
-- Adres listesi
-- Yeni adres ekleme formu
-- Adres seçimi
-- Ödeme ekranına navigasyon
+- Address list
+- New address addition form
+- Address selection
+- Navigation to payment screen
 
 ### 4. Payment Screen
-- Sipariş özeti
-- Ek hizmetler seçimi
-- Randevu tarih/saat seçimi
-- **Cüzdan entegrasyonu:**
-  - Bakiye görüntüleme
-  - Cüzdan kullanım toggle
-  - Ödeme dağılımı gösterimi
-- Kart bilgileri formu (opsiyonel)
-- Ödeme işlemi
+- Order summary
+- Additional services selection
+- Appointment date/time selection
+- **Wallet integration:**
+  - Balance display
+  - Wallet usage toggle
+  - Payment breakdown display
+- Card information form (optional)
+- Payment processing
 
 ### 5. Booking Screen
-- Randevu listesi
-- Randevu detayları:
-  - Ürün adı
-  - Tarih/saat
-  - Adres bilgileri
-  - Ek hizmetler
-  - Toplam tutar
-  - Durum (renk kodlu badge)
+- Appointment list
+- Appointment details:
+  - Product name
+  - Date/time
+  - Address information
+  - Additional services
+  - Total amount
+  - Status (color-coded badge)
 - Pull-to-refresh
-- İptal butonu (şu an disabled)
+- Cancel button (currently disabled)
 
 ### 6. Wallet Screen
-- Bakiye kartı
-- Promosyon kodu girme ve kullanma
-- İşlem geçmişi listesi:
-  - İşlem tipi
-  - Tutar (pozitif/negatif)
-  - Açıklama
-  - Tarih
+- Balance card
+- Promo code entry and redemption
+- Transaction history list:
+  - Transaction type
+  - Amount (positive/negative)
+  - Description
+  - Date
 - Pull-to-refresh
 
 ### 7. Profile Screen
-- Kullanıcı bilgileri (isim, email, telefon)
-- Profil düzenleme
-- Çıkış yapma
-- Auth guard (giriş yapmamış kullanıcılar için yönlendirme)
+- User information (name, email, phone)
+- Profile editing
+- Logout
+- Auth guard (redirect for non-logged-in users)
 
 ---
 
-## 🔐 Backend Hakkında
+## 🔐 About Backend
 
-- Backend **özel (private)** tutulmaktadır
-- Bu repo canlı backend kodlarını **içermez**
-- API endpoint'leri örnek / geliştirme amaçlıdır
-- Backend **Go (Golang)** ile geliştirilmiştir
+- Backend is kept **private**
+- This repository **does not include** live backend code
+- API endpoints are for example/development purposes
+- Backend is developed with **Go (Golang)**
 
-### Backend Özellikleri (Referans)
+### Backend Features (Reference)
 
 - JWT authentication
-- MySQL veritabanı
-- CORS desteği
-- Wallet/ödeme sistemi
-- Promo code sistemi
-- Order/booking yönetimi
+- MySQL database
+- CORS support
+- Wallet/payment system
+- Promo code system
+- Order/booking management
 
-Eğer proje ileride:
-- **Başarılı olursa:** Open-core model devam eder
-- **Sonlandırılırsa:** Backend dahil tamamı açık kaynak yapılabilir
-
----
-
-## 🛠️ Geliştirme Notları
-
-### Ödeme Sistemi Mantığı
-
-1. **Cüzdan Ödeme:**
-   - Kullanıcı cüzdan bakiyesini kullanmak isterse toggle açılır
-   - Bakiye yeterliyse: Tamamı cüzdandan ödenir (`payment_method: "wallet"`)
-   - Bakiye yetersizse: Kısmi ödeme yapılır (`payment_method: "mixed"`)
-     - Cüzdan: Mevcut bakiye kadar
-     - Kart: Kalan tutar (şu an opsiyonel)
-
-2. **Kart Ödeme:**
-   - Cüzdan kullanılmıyorsa: Tamamı karttan (`payment_method: "card"`)
-   - Kart bilgileri şu an görsel amaçlı, backend'e gönderilmiyor
-
-### Güvenlik
-
-- JWT token güvenli depolama (`flutter_secure_storage`)
-- HTTPS kullanımı önerilir (production için)
-- Token her istekte otomatik eklenir
-- Token expiration kontrolü backend'de yapılır
-
-### Hata Yönetimi
-
-- Tüm API çağrıları try-catch ile korunur
-- Loading ve error state'leri her ekranda mevcuttur
-- Kullanıcıya anlamlı hata mesajları gösterilir
-- Debug modda console'a log yazılır
+If the project in the future:
+- **Succeeds:** Open-core model continues
+- **Is terminated:** Everything including backend can be made open source
 
 ---
 
-## 📄 Lisans
+## 🛠️ Development Notes
 
-Bu proje açık kaynak olarak sunulmaktadır. Detaylar için lisans dosyasına bakın.
+### Payment System Logic
+
+1. **Wallet Payment:**
+   - If user wants to use wallet balance, toggle is turned on
+   - If balance is sufficient: Entire amount is paid from wallet (`payment_method: "wallet"`)
+   - If balance is insufficient: Partial payment is made (`payment_method: "mixed"`)
+     - Wallet: Up to available balance
+     - Card: Remaining amount (currently optional)
+
+2. **Card Payment:**
+   - If wallet is not used: Entire amount from card (`payment_method: "card"`)
+   - Card information is currently visual purposes only, not sent to backend
+
+### Security
+
+- JWT token secure storage (`flutter_secure_storage`)
+- HTTPS usage is recommended (for production)
+- Token is automatically added to every request
+- Token expiration check is done on backend
+
+### Error Management
+
+- All API calls are protected with try-catch
+- Loading and error states are available on every screen
+- Meaningful error messages are shown to users
+- Logs are written to console in debug mode
 
 ---
 
-## 🤝 Katkıda Bulunma
+## 📄 License
 
-Katkılarınızı bekliyoruz! Lütfen önce bir issue açın veya mevcut issue'ları kontrol edin.
-
----
-
-## 📞 İletişim
-
-Sorularınız veya önerileriniz için issue açabilirsiniz.
+This project is provided as open source. See the license file for details.
 
 ---
 
-**Not:** Bu README, projenin mevcut durumunu yansıtmaktadır ve düzenli olarak güncellenmektedir.
+## 🤝 Contributing
+
+We welcome your contributions! Please open an issue first or check existing issues.
+
+---
+
+## 📞 Contact
+
+You can open an issue for questions or suggestions.
+
+---
+
+**Note:** This README reflects the current state of the project and is regularly updated.
